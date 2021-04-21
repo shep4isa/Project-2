@@ -3,6 +3,21 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
+const header = document.querySelector('.header');
+const searchBar = `
+   <label for="search" class="student-search">
+      <span>Search by name</span>
+      <input id="search" placeholder="Search by name...">
+      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+   </label>
+   `
+header.insertAdjacentHTML("beforeend", searchBar);
+
+const input = document.querySelector('#search');
+input.addEventListener('change', (e) => {
+   console.log(e.target.value);
+});
+
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
