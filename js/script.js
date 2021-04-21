@@ -10,6 +10,9 @@ This function will create and insert/append the elements needed to display a "pa
 function showPage (list, page){
    let endIndex = page * 9;
    let startIndex = endIndex - 9;
+   if (endIndex > list.length){
+      endIndex = list.length;
+   }
    const studentList = document.querySelector(".student-list");
    studentList.innerHTML = '';
    for (let i = startIndex; i<endIndex; i++){
@@ -46,6 +49,15 @@ function addPagination(list) {
       li.appendChild(pageButon);
    }
    linkList.firstElementChild.firstElementChild.className = 'active';
+
+   linkList.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+         const button = e.target;
+         document.querySelector('.active').className = '';
+         button.className = 'active';
+         showPage(list, button.textContent);
+      }
+   });
 }
 
 
