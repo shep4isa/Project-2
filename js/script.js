@@ -3,6 +3,7 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
+// Create Search bar insert into header section
 const header = document.querySelector('.header');
 const searchBar = `
    <label for="search" class="student-search">
@@ -14,13 +15,25 @@ const searchBar = `
 header.insertAdjacentHTML("beforeend", searchBar);
 
 const input = document.querySelector('#search');
+// sevent listener for search bar adds search results to searchlist array calls showPage() and addPagination()
 input.addEventListener('change', (e) => {
-   console.log(e.target.value);
+   let searchList = [];
+   for (let i = 0; i<data.length; i++){
+      let fullName = data[i].name.first+' '+data[i].name.last;
+      let partialString = fullName.substr(0, e.target.value.length);
+      let searchString = e.target.value;
+      if( searchString.toUpperCase() === partialString.toUpperCase()){
+         searchList.push(data[i]);
+      }    
+   }
+   showPage(searchList, 1);
+   addPagination(searchList);
 });
 
 /*
 Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
+accepts list array and page parameters
+sets number of students to diplay per page dynamicly inserts student list items 
 */
 function showPage (list, page){
    let endIndex = page * 9;
@@ -49,7 +62,9 @@ function showPage (list, page){
 
 /*
 Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
+accepts list array parameter 
+determines number of pages needed inserts page buttins to navigate between pages 
+adds active class to current button
 */
 
 function addPagination(list) {
@@ -65,6 +80,7 @@ function addPagination(list) {
    }
    linkList.firstElementChild.firstElementChild.className = 'active';
 
+   //adds event listener for page buttons calls showpage to create selected page
    linkList.addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
          const button = e.target;
@@ -77,6 +93,6 @@ function addPagination(list) {
 
 
 
-// Call functions
+// Call functions to initiate page
 showPage(data, 1);
 addPagination(data);
