@@ -14,20 +14,36 @@ const searchBar = `
    `
 header.insertAdjacentHTML("beforeend", searchBar);
 
+const studentList = document.querySelector(".student-list");
+
 const input = document.querySelector('#search');
 // sevent listener for search bar adds search results to searchlist array calls showPage() and addPagination()
-input.addEventListener('change', (e) => {
+input.addEventListener('input', (e) => {
+   const paginationDiv = document.querySelector(".pagination");
    let searchList = [];
    for (let i = 0; i<data.length; i++){
-      let fullName = data[i].name.first+' '+data[i].name.last;
-      let partialString = fullName.substr(0, e.target.value.length);
-      let searchString = e.target.value;
-      if( searchString.toUpperCase() === partialString.toUpperCase()){
+      let firstName = data[i].name.first.toUpperCase();
+      let lastName = data[i].name.last.toUpperCase();
+      let searchName = e.target.value.toUpperCase();
+      if(firstName.includes(searchName) || lastName.includes(searchName)){
          searchList.push(data[i]);
       }    
+   } 
+   // tests for search results creates no results item and hides pagination or lists search results
+   if (searchList.length === 0){
+      studentList.innerHTML = '';
+      let studentItem = `  
+         <li class="student-item cf">
+            <h1>No Results Found</h2>
+         </li>
+      `
+      studentList.insertAdjacentHTML("beforeend", studentItem);
+      paginationDiv.style.display="none";
+   } else {
+      paginationDiv.style.display="block";
+      showPage(searchList, 1);
+      addPagination(searchList);
    }
-   showPage(searchList, 1);
-   addPagination(searchList);
 });
 
 /*
@@ -41,10 +57,11 @@ function showPage (list, page){
    if (endIndex > list.length){
       endIndex = list.length;
    }
-   const studentList = document.querySelector(".student-list");
    studentList.innerHTML = '';
+   let studentItem =''
+   
    for (let i = startIndex; i<endIndex; i++){
-      let studentItem = `  
+      studentItem = `  
          <li class="student-item cf">
             <div class="student-details">
                <img class="avatar" src=${list[i].picture.medium} alt="Profile Picture">

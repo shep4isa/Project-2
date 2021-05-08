@@ -43,8 +43,6 @@ header h2 {
 	margin-bottom: 25px;
 }
 
-
-
 .student-search {
   display: flex;
 }
@@ -77,6 +75,10 @@ header h2 {
   width: 25px;
 }
 
+
+.no-results{
+   display:hidden;
+}
 
 
 .student-list {
